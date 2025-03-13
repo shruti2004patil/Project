@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Airplane Ticket Booking System</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            background-image: url('img.jpeg');            
+            background-position-x:center;
+            background-position-y:center;
+            background-repeat:no-repeat ;
+            background-size: contain;
+            background-color: #f0f0f0;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            background-color: #dcaac2;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+    </style>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <a class="navbar-brand" href="#">Airline Ticket Booking System</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item active">
+                    <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">About</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Contact</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <div class="container">
+        <h1>Search for Flights</h1>
+        <form id="search-form">
+            <div class="form-group">
+                <label for="departure-city">Departure City:</label>
+                <select class="form-control" id="departure-city">
+                    <option value="">Select City</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Nagpur">Nagpur</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="arrival-city">Arrival City:</label>
+                <select class="form-control" id="arrival-city">
+                    <option value="">Select City</option>
+                    <option value="Delhi">Delhi</option>
+                    <option value="Mumbai">Mumbai</option>
+                    <option value="Pune">Pune</option>
+                    <option value="Nagpur">Nagpur</option>
+                     
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="travel-dates">Travel Dates:</label>
+                <input type="date" class="form-control" id="travel-dates">
+            </div>
+            <div class="form-group">
+                <label for="number-of-passengers">Number of Passengers:</label>
+                <select class="form-control" id="number-of-passengers">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Search for Flights</button>
+        </form>
+        <h1>Available Flights</h1>
+        <table class="table table-striped" id="flights-table">
+            <thead>
+                <tr>
+                    <th>Flight Number</th>
+                    <th>Departure City</th>
+                    <th>Arrival City</th>
+                    <th>Travel Dates</th>
+                    <th>Price</th>
+                </tr>
+            </thead>
+            <tbody id="flights-tbody">
+            </tbody>
+        </table>
+        <h1>Seat Selection</h1>
+        <div class="row" id="seat-selection">
+        </div>
+        <h1>Booking Summary</h1>
+        <div class="card" id="booking-summary">
+            <div class="card-body">
+                <h5 class="card-title">Booking Summary</h5>
+                <p class="card-text" id="booking-summary-text"></p>
+            </div>
+        </div>
+        <button type="button" class="btn btn-primary" id="book-button" data-toggle="modal" data-target="#booking-modal">Book Flight</button>
+    </div>
+    <div class="modal fade" id="booking-modal" tabindex="-1" role="dialog" aria-labelledby="booking-modal-label" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="booking-modal-label">Booking Confirmation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="booking-modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+    <script>
+        let flights = [
+            { flightNumber: "AA101", departureCity: "Delhi", arrivalCity: "Mumbai", travelDates: "2025-03-03", price: 2000 },
+            { flightNumber: "AA102", departureCity: "Mumbai", arrivalCity: "Pune", travelDates: "2025-03-04", price: 2500 },
+            { flightNumber: "AA103", departureCity: "Pune", arrivalCity: "Delhi", travelDates: "2025-03-05", price: 2400 },
+            { flightNumber: "AA104", departureCity: "Nagpur", arrivalCity: "Mumbaio", travelDates: "2025-03-06", price: 2400 },
+            { flightNumber: "AA105", departureCity: "Delhi", arrivalCity: "Pune", travelDates: "2025-03-05", price: 1600 },
+            { flightNumber: "AA103", departureCity: "Mumbai", arrivalCity: "Delhi", travelDates: "2025-03-07", price: 2500 },
+            { flightNumber: "AA103", departureCity: "Pune", arrivalCity: "Nagpur", travelDates: "2025-03-09", price: 1500 },
+            { flightNumber: "AA103", departureCity: "Nagpur", arrivalCity: "Delhi", travelDates: "2025-03-08", price: 3500 },
+        ];
+
+        $(document).ready(function() {
+            $("#search-form").submit(function(event) {
+                event.preventDefault();
+                let departureCity = $("#departure-city").val();
+                let arrivalCity = $("#arrival-city").val();
+                let travelDates = $("#travel-dates").val();
+                let numberOfPassengers = $("#number-of-passengers").val();
+
+                let filteredFlights = flights.filter(function(flight) {
+                    return flight.departureCity === departureCity && flight.arrivalCity === arrivalCity && flight.travelDates === travelDates;
+                });
+
+                $("#flights-tbody").empty();
+                $.each(filteredFlights, function(index, flight) {
+                    $("#flights-tbody").append("<tr><td>" + flight.flightNumber + "</td><td>" + flight.departureCity + "</td><td>" + flight.arrivalCity + "</td><td>" + flight.travelDates + "</td><td>" + flight.price + "</td></tr>");
+                });
+
+                let seatHtml = "";
+                for (let i = 0; i < numberOfPassengers; i++) {
+                    seatHtml += "<div class='col-md-3'><input type='checkbox' id='seat-" + i + "'><label for='seat-" + i + "'>Seat " + (i + 1) + "</label></div>";
+                }
+                $("#seat-selection").html(seatHtml);
+            });
+
+            $("#book-button").click(function() {
+                let bookingSummaryText = "Flight Number: " + $("#flights-table").find("td:first").text() + "\nDeparture City: " + $("#flights-table").find("td:nth-child(2)").text() + "\nArrival City: " + $("#flights-table").find("td:nth-child(3)").text() + "\nTravel Dates: " + $("#flights-table").find("td:nth-child(4)").text() + "\nPrice: " + $("#flights-table").find("td:nth-child(5)").text();
+                $("#booking-summary-text").text(bookingSummaryText);
+
+                let bookingModalBody = "Your flight has been booked successfully.";
+                $("#booking-modal-body").text(bookingModalBody);
+            });
+        });
+    </script>
+</body>
+</html>
